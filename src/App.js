@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from "react"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Template from  "./templates/Template.js"
+import Albums from "./pages/Albums"
+import Counter from "./pages/Counter.js"
+import Users from "./pages/Users.js"
+
+const defaultPage = "albums"
+
+const allPages = {
+  albums: {
+    text: "Álbuns",
+    component: Albums,
+  },
+  counter: {
+    text: "Contador",
+    component: Counter,
+  },
+  users: {
+    text: "Usuários",
+    component: Users,
+  }
 }
 
-export default App;
+const App = _ => {
+  const [page, setPage] = useState(defaultPage)
+  
+  const handlePageChange = destinationPage => {
+    setPage(destinationPage)
+  }
+  
+  const Page = allPages[page].component
+    
+  return(
+    <Template allPages={allPages} onPageChange={handlePageChange} activePage={page}>
+      { page && <Page />}
+    </Template>
+  )
+}
+
+export default App
